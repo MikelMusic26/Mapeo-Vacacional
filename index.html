@@ -1,0 +1,15 @@
+if (!require(pacman)) install.packages("pacman")
+pacman::p_load(sf, leaflet)
+
+latitud <- c(4.2016730, 4.8200071, 4.6188979, 7.060130021, 11.20573813, 6.406270713, 6.138613018, 4.281214397, 4.601619647, 4.605843712)
+longitud <- c(-74.63455942, -73.168705, -74.11331323, -73.85320024, -74.22767781, -75.4205822, -75.37920124, -74.81602361, -74.07222337, -74.05565425)
+lugares <- c("Complejo vacacional de Melgar", "Pueblo de San Luis de Gaceno", "Casa vacacional", "Barrancabermeja", "Santa Marta", "El Parque de las aguas", "Parque de Confama", "Flanders Tolima", "Museo del Oro, Bogotá", "Monserrate")
+
+df <- data.frame(latitud, longitud, lugares, stringAsFactors = FALSE)
+
+points <- st_as_sf(df, coords = c("longitud", "latitud"), crs = 4326)
+
+leaflet(points)%>%
+  addTiles()%>%
+  addMarkers(popup= ~lugares)%>%
+  addControl("<h1> ¡Vacaciones! </h1>", position = "topright")
